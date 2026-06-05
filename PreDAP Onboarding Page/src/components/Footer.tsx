@@ -163,10 +163,10 @@ const Footer = () => {
           aria-hidden="true"
         >
           <div
-            className="-mb-[0.16em] bg-gradient-to-r from-foreground via-brand-secondary to-brand bg-clip-text font-display font-bold leading-[0.78] tracking-tighter text-transparent"
-            style={{ fontSize: "clamp(4rem, 28vw, 22rem)" }}
+            className="-mb-[0.16em] whitespace-nowrap bg-gradient-to-r from-foreground via-brand-secondary to-brand bg-clip-text font-display font-bold leading-[0.78] tracking-tighter text-transparent"
+            style={{ fontSize: "clamp(2.25rem, 19.5vw, 16rem)" }}
           >
-            PreDAP
+            PreDAP-AI
           </div>
         </div>
       </div>
