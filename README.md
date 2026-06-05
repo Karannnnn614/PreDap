@@ -1,6 +1,6 @@
-# PreDAP — AI-Driven Onboarding & Productivity
+# PreDAP — AI-Driven Onboarding, Navigation & Productivity
 
-A Chrome extension that redefines how users interact with enterprise tools, automate workflows, and learn complex platforms using a 3-tier AI system — all while keeping privacy at the core.
+A Chrome extension that doesn't just onboard you — give it a query and it navigates you through any tool, automates workflows, and explains complex platforms in real time, using a 3-tier AI system that keeps privacy at the core.
 
 🎥 **Demo:** [Watch Now](https://drive.google.com/file/d/1x1LMtvn8sO6P1KZ815QMuBJ5rGNb2WMz/view?usp=sharing)
 
@@ -17,6 +17,8 @@ PreDAP was built to fix that.
 ## 💡 What It Does
 
 PreDAP is a 3-tier AI-powered Chrome extension that integrates directly with websites to deliver real-time, personalized guidance. It understands the current UI, abstracts sensitive data locally, and routes only what's necessary to the cloud — giving users intelligent assistance without compromising privacy.
+
+Onboarding is just the start: give PreDAP a query and it navigates you to the right place and walks you through the task, step by step.
 
 ---
 
@@ -39,7 +41,7 @@ The abstracted context is sent to Gemini Pro for high-level reasoning, step gene
 
 ## 🖥️ Interactive Onboarding UI
 
-Built with Next.js, the onboarding interface walks users through step-by-step instructions that react dynamically based on what the AI detects on screen. It connects cleanly with both the Chrome extension and the Gemini backend.
+Built with Vite + React + TypeScript + Tailwind, the onboarding interface walks users through step-by-step instructions that react dynamically based on what the AI detects on screen. It connects cleanly with both the Chrome extension and the Gemini backend.
 
 ---
 
@@ -47,19 +49,14 @@ Built with Next.js, the onboarding interface walks users through step-by-step in
 
 ```
 PreDAP/
-├── extension/            # Chrome extension codebase
-│   ├── background.js
-│   ├── content.js
-│   └── manifest.json
-├── ai-models/
-│   ├── pixel-analyzer/   # Edge model for UI recognition
-│   ├── abstracter/       # Edge model for privacy abstraction
-│   └── big-ai/           # Cloud model (Gemini / GCP-based)
-├── ui-onboarding/
-│   └── nextjs-app/       # Interactive onboarding page in Next.js
-├── .github/
-│   └── workflows/        # GitHub Actions CI/CD setup
-├── assets/               # Diagrams, screenshots
+├── extension/               # Chrome extension (content scripts, popup, manifest)
+├── api_server/              # Python FastAPI backend — 3-tier AI logic + Gemini
+│   ├── server.py
+│   ├── logic.py
+│   └── requirements.txt
+├── PreDAP Onboarding Page/  # Marketing site — Vite + React + TS + Tailwind
+├── docs/                    # Installation & testing guides
+├── form.html                # Sample form for extension testing
 └── README.md
 ```
 
@@ -69,7 +66,8 @@ PreDAP/
 
 | Layer | Technology |
 |---|---|
-| Frontend Onboarding | Next.js |
+| Frontend Onboarding | Vite + React + TypeScript + Tailwind |
+| Backend API | Python (FastAPI) |
 | Chrome Integration | Chrome Extension API |
 | Edge AI Models | TensorFlow Lite / ONNX |
 | Cloud AI | Gemini Pro / GCP |
@@ -91,8 +89,8 @@ PreDAP/
 1. Clone the repository
 
    ```bash
-   git clone https://github.com/your-username/predap.git
-   cd predap
+   git clone https://github.com/Karannnnn614/PreDap.git
+   cd PreDap
    ```
 
 2. Load the extension in Chrome
@@ -103,20 +101,19 @@ PreDAP/
 ### Onboarding UI Setup
 
 ```bash
-cd ui-onboarding/nextjs-app
+cd "PreDAP Onboarding Page"
 npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the onboarding interface.
+Open [http://localhost:5173](http://localhost:5173) to view the onboarding interface.
 
 ### Environment Variables
 
-Create a `.env.local` in `ui-onboarding/nextjs-app/`:
+Create a `.env` in `api_server/`:
 
 ```env
 GEMINI_API_KEY=your_gemini_api_key
-GCP_PROJECT_ID=your_gcp_project_id
 ```
 
 ---
@@ -126,11 +123,22 @@ GCP_PROJECT_ID=your_gcp_project_id
 - [x] 3-tier AI architecture
 - [x] Chrome extension with real-time UI detection
 - [x] Privacy abstraction layer
-- [x] Next.js onboarding interface
+- [x] Vite + React onboarding interface
 - [ ] Support for Firefox & Edge
 - [ ] Fine-tuned domain-specific edge models
 - [ ] Admin dashboard for workflow configuration
 - [ ] Offline mode with fully local AI inference
+
+---
+
+## 👤 Author
+
+**Built by Karan** — software code at [github.com/Karannnnn614/PreDap](https://github.com/Karannnnn614/PreDap).
+
+- GitHub — [@Karannnnn614](https://github.com/Karannnnn614)
+- LinkedIn — [karannnnn](https://www.linkedin.com/in/karannnnn/)
+- X — [@karannnnn614](https://x.com/karannnnn614)
+- Email — [workwithkaran614@gmail.com](mailto:workwithkaran614@gmail.com)
 
 ---
 
