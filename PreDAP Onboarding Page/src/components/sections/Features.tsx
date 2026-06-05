@@ -7,8 +7,6 @@ interface Feature {
   icon: LucideIcon;
   title: string;
   description: string;
-  /** Let the lead card span two columns on large screens for asymmetry. */
-  wide?: boolean;
 }
 
 const features: Feature[] = [
@@ -17,7 +15,6 @@ const features: Feature[] = [
     title: "Enhanced Productivity",
     description:
       "Automate repetitive tasks and cut manual effort, so your team can focus on high-value work.",
-    wide: true,
   },
   {
     icon: Sparkles,
@@ -37,7 +34,7 @@ const Features = () => {
   return (
     <section id="product" className="section-spacing">
       <div className="container-section">
-        {/* Header — intro copy is kept narrow and centered for confident focus. */}
+        {/* Header */}
         <motion.div
           variants={stagger}
           initial="hidden"
@@ -66,32 +63,30 @@ const Features = () => {
           </motion.p>
         </motion.div>
 
-        {/* Cards — asymmetric grid: lead card spans 2 cols on lg for rhythm. */}
+        {/* Clean, balanced 3-up grid */}
         <motion.div
           variants={stagger}
           initial="hidden"
           whileInView="visible"
           viewport={viewportOnce}
-          className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+          className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
         >
-          {features.map(({ icon: Icon, title, description, wide }) => (
+          {features.map(({ icon: Icon, title, description }) => (
             <motion.article
               key={title}
               variants={fadeInUp}
-              className={`group surface-card relative overflow-hidden p-8 hover:-translate-y-1 hover:border-brand/30 hover:shadow-xl ${
-                wide ? "md:col-span-2 lg:col-span-2" : ""
-              }`}
+              className="group surface-card relative overflow-hidden p-8 transition-all duration-300 hover:-translate-y-1 hover:border-brand/40 hover:shadow-glow"
             >
               {/* Subtle brand wash that surfaces on hover. */}
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-brand/[0.03] to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-brand/[0.06] to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
               <div className="relative">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-brand to-brand-secondary text-white shadow-accent transition-transform duration-300 group-hover:scale-105">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-brand to-brand-secondary text-white shadow-glow transition-transform duration-300 group-hover:scale-105">
                   <Icon className="h-6 w-6" />
                 </div>
 
                 <h3 className="mt-6 text-xl font-semibold">{title}</h3>
-                <p className="mt-3 max-w-md text-lg leading-relaxed text-muted-foreground">
+                <p className="mt-3 leading-relaxed text-muted-foreground">
                   {description}
                 </p>
               </div>
