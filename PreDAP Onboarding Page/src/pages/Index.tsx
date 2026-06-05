@@ -6,8 +6,6 @@ import Features from "@/components/sections/Features";
 import HowItWorks from "@/components/sections/HowItWorks";
 import Technology from "@/components/sections/Technology";
 import Roadmap from "@/components/sections/Roadmap";
-import Testimonials from "@/components/sections/Testimonials";
-import CTA from "@/components/sections/CTA";
 
 const Index = () => {
   return (
@@ -26,11 +24,8 @@ const Index = () => {
         <Technology />
         {/* Where it's headed */}
         <Roadmap />
-        {/* Proof */}
-        <Testimonials />
-        {/* Convert */}
-        <CTA />
       </main>
+      {/* Final CTA band + footer + oversized wordmark */}
       <Footer />
     </div>
   );
