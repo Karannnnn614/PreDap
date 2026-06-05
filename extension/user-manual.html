@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      /* Dark theme styles */
+      body {
+        width: 300px;
+        padding: 10px;
+        height: 200px;
+        font-family: sans-serif;
+        background-color: #121212;
+        color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      button {
+        width: 100%;
+        padding: 10px;
+        background-color: #6200ea;
+        color: #ffffff;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #3700b3;
+      }
+
+      input[type="file"] {
+        margin-top: 10px;
+        color: #ffffff;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>User Manual</h2>
+    <button id="upload-pdf">Upload PDF</button>
+    <input type="file" id="pdf-input" accept="application/pdf" style="display: none;" />
+    <script>
+      document.getElementById('upload-pdf').addEventListener('click', () => {
+        document.getElementById('pdf-input').click(); // Trigger file input
+      });
+
+      document.getElementById('pdf-input').addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+          alert(`Selected file: ${file.name}`);
+          // Add logic to handle the uploaded PDF file
+        }
+      });
+    </script>
+  </body>
+</html>
