@@ -1,0 +1,20 @@
+api_fake_server/node_modules
+PreDAP Onboarding Page/node_modules
+api_fake_server/package-lock.json
+# Ignore Python cache directories
+__pycache__/
+.venv
+test_images
+htmlparse.py
+interactive_elements.json
+
+testing/node_modules
+testing/package-lock.json
+
+test_images
+request.py
+.env
+
+# Testing and development folders
+testing/
+api_fake_server/
