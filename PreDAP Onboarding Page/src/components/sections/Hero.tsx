@@ -47,10 +47,10 @@ const Hero = () => {
               variants={fadeInUp}
               className="mx-auto mt-7 max-w-xl text-lg leading-relaxed text-muted-foreground lg:mx-0"
             >
-              PreDAP is an AI copilot that reads the screen, understands the UI
-              in real time, and walks users through complex tasks step by step —
-              abstracting sensitive data on-device so nothing private ever leaves
-              the browser.
+              PreDAP is an AI copilot that reads any screen and understands the
+              UI in real time. Ask it to onboard you or navigate any task, and it
+              guides you step by step — abstracting sensitive data on-device so
+              nothing private ever leaves the browser.
             </motion.p>
 
             <motion.div
@@ -58,7 +58,7 @@ const Hero = () => {
               className="mt-9 flex flex-col gap-4 sm:flex-row sm:justify-center lg:justify-start"
             >
               <Button asChild variant="gradient" size="xl" className="group w-full sm:w-auto">
-                <a href="https://predap.ai" target="_blank" rel="noopener noreferrer">
+                <a href="https://github.com/Karannnnn614/PreDap" target="_blank" rel="noopener noreferrer">
                   Try PreDAP Now
                   <ArrowRight className="transition-transform duration-200 group-hover:translate-x-1" />
                 </a>
