@@ -1,4 +1,3 @@
-import React from "react";
 import { Button } from "@/components/ui/button";
 
 const productLinks = [
@@ -17,21 +16,20 @@ const companyLinks = [
 
 const Footer = () => {
   return (
-    <footer className="relative overflow-hidden bg-foreground text-background">
-      {/* Subtle dot-grid texture — felt, not seen */}
-      <div className="pointer-events-none absolute inset-0 dot-pattern opacity-[0.04]" />
-      {/* Single brand glow */}
-      <div className="pointer-events-none absolute -bottom-32 -left-24 h-[480px] w-[480px] rounded-full bg-brand/10 blur-[150px]" />
+    <footer className="relative overflow-hidden border-t border-white/[0.08] bg-background">
+      {/* Subtle grid texture + brand glow */}
+      <div className="grid-pattern pointer-events-none absolute inset-0 opacity-50" />
+      <div className="pointer-events-none absolute -bottom-32 left-1/4 h-[420px] w-[420px] rounded-full bg-brand/10 blur-[150px]" />
 
       <div className="container-section relative z-10 py-16 md:py-20">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-4">
           {/* Brand column */}
           <div className="md:col-span-2">
-            <div className="font-display text-2xl tracking-tight">
-              <span className="text-background">Pre</span>
+            <div className="font-display text-2xl font-semibold tracking-tight">
+              <span className="text-foreground">Pre</span>
               <span className="gradient-text">DAP</span>
             </div>
-            <p className="mt-4 max-w-md text-white/70 leading-relaxed">
+            <p className="mt-4 max-w-md leading-relaxed text-muted-foreground">
               PreDAP uses advanced 3-tier AI to automate onboarding and reduce
               the burden of complex, repetitive tasks — while keeping data
               private and on-device.
@@ -45,7 +43,7 @@ const Footer = () => {
 
           {/* Product links */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-white">
+            <h3 className="font-mono text-xs uppercase tracking-[0.15em] text-brand-secondary">
               Product
             </h3>
             <ul className="mt-4 space-y-3">
@@ -53,7 +51,7 @@ const Footer = () => {
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-white/70 hover:text-white transition-colors"
+                    className="text-muted-foreground transition-colors hover:text-foreground"
                   >
                     {link.label}
                   </a>
@@ -64,7 +62,7 @@ const Footer = () => {
 
           {/* Company links */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-white">
+            <h3 className="font-mono text-xs uppercase tracking-[0.15em] text-brand-secondary">
               Company
             </h3>
             <ul className="mt-4 space-y-3">
@@ -72,7 +70,7 @@ const Footer = () => {
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-white/70 hover:text-white transition-colors"
+                    className="text-muted-foreground transition-colors hover:text-foreground"
                   >
                     {link.label}
                   </a>
@@ -83,8 +81,8 @@ const Footer = () => {
         </div>
 
         {/* Bottom row */}
-        <div className="mt-14 border-t border-white/10 pt-6">
-          <p className="text-sm text-white/50">
+        <div className="mt-14 border-t border-white/[0.06] pt-6">
+          <p className="text-sm text-muted-foreground">
             © {new Date().getFullYear()} PreDAP. All rights reserved.
           </p>
         </div>
