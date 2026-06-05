@@ -1,7 +1,13 @@
+import React, { useState, useEffect } from "react";
+import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-import React, { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Menu, X } from 'lucide-react';
+const navLinks = [
+  { label: "Product", href: "#product" },
+  { label: "Technology", href: "#technology" },
+  { label: "How It Works", href: "#how-it-works" },
+  { label: "Roadmap", href: "#roadmap" },
+];
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -16,61 +22,96 @@ const Navbar = () => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
+    setIsMobileMenuOpen((open) => !open);
   };
 
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
+
+  const Wordmark = (
+    <a href="#" className="font-display text-2xl tracking-tight" aria-label="PreDAP home">
+      <span className="text-foreground">Pre</span>
+      <span className="gradient-text">DAP</span>
+    </a>
+  );
+
   return (
-    <nav 
+    <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white/90 backdrop-blur-md shadow-sm' : 'bg-transparent'
+        isScrolled
+          ? "bg-background/80 backdrop-blur-md border-b border-border shadow-sm"
+          : "bg-transparent"
       }`}
     >
-      <div className="container-section py-4 md:py-6">
+      <div className="container-section py-4 md:py-5">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="font-bold text-2xl">
-              <span className="text-predap-purple">Pre</span>
-              <span className="text-predap-blue">Dap</span>
-            </div>
-          </div>
-          
+          {/* Left — wordmark */}
+          {Wordmark}
+
           {/* Desktop navigation */}
           <div className="hidden md:flex items-center gap-8">
-            <a href="#product" className="text-foreground/80 hover:text-predap-purple transition-colors">Product</a>
-            <a href="#technology" className="text-foreground/80 hover:text-predap-purple transition-colors">Technology</a>
-            <a href="#how-it-works" className="text-foreground/80 hover:text-predap-purple transition-colors">How It Works</a>
-            <a href="#roadmap" className="text-foreground/80 hover:text-predap-purple transition-colors">Roadmap</a>
-            <Button asChild className="bg-predap-purple hover:bg-predap-purple/90">
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {link.label}
+              </a>
+            ))}
+            <Button asChild variant="gradient">
               <a href="https://predap.ai" target="_blank" rel="noopener noreferrer">
-                Try PreDap Now
+                Try PreDAP Now
               </a>
             </Button>
           </div>
-          
-          {/* Mobile menu button */}
+
+          {/* Mobile menu toggle */}
           <div className="md:hidden">
-            <Button variant="ghost" size="icon" onClick={toggleMobileMenu}>
-              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleMobileMenu}
+              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isMobileMenuOpen}
+            >
+              {isMobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
             </Button>
           </div>
         </div>
-        
-        {/* Mobile menu */}
+
+        {/* Mobile menu panel */}
         {isMobileMenuOpen && (
           <div className="md:hidden pt-4 pb-2 animate-fade-in">
-            <div className="flex flex-col gap-4">
-              <a href="#product" className="text-foreground/80 hover:text-predap-purple transition-colors py-2" onClick={toggleMobileMenu}>Product</a>
-              <a href="#technology" className="text-foreground/80 hover:text-predap-purple transition-colors py-2" onClick={toggleMobileMenu}>Technology</a>
-              <a href="#how-it-works" className="text-foreground/80 hover:text-predap-purple transition-colors py-2" onClick={toggleMobileMenu}>How It Works</a>
-              <a href="#roadmap" className="text-foreground/80 hover:text-predap-purple transition-colors py-2" onClick={toggleMobileMenu}>Roadmap</a>
-              <Button asChild className="bg-predap-purple hover:bg-predap-purple/90 w-full">
-                <a href="https://predap.ai" target="_blank" rel="noopener noreferrer">
-                  Try PreDap Now
+            <div className="flex flex-col gap-1">
+              {navLinks.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={closeMobileMenu}
+                  className="py-2 text-base font-medium text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {link.label}
+                </a>
+              ))}
+              <Button asChild variant="gradient" className="mt-3 w-full">
+                <a
+                  href="https://predap.ai"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={closeMobileMenu}
+                >
+                  Try PreDAP Now
                 </a>
               </Button>
             </div>

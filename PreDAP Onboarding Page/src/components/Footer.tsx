@@ -1,54 +1,91 @@
+import React from "react";
+import { Button } from "@/components/ui/button";
 
-import React from 'react';
-import { Button } from '@/components/ui/button';
+const productLinks = [
+  { label: "Overview", href: "#product" },
+  { label: "Technology", href: "#technology" },
+  { label: "How It Works", href: "#how-it-works" },
+  { label: "Roadmap", href: "#roadmap" },
+];
+
+const companyLinks = [
+  { label: "About Us", href: "#" },
+  { label: "Contact", href: "#" },
+  { label: "Privacy Policy", href: "#" },
+  { label: "Terms of Service", href: "#" },
+];
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
-  
   return (
-    <footer className="bg-predap-dark text-white">
-      <div className="container-section py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className="relative overflow-hidden bg-foreground text-background">
+      {/* Subtle dot-grid texture — felt, not seen */}
+      <div className="pointer-events-none absolute inset-0 dot-pattern opacity-[0.04]" />
+      {/* Single brand glow */}
+      <div className="pointer-events-none absolute -bottom-32 -left-24 h-[480px] w-[480px] rounded-full bg-brand/10 blur-[150px]" />
+
+      <div className="container-section relative z-10 py-16 md:py-20">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-4">
+          {/* Brand column */}
           <div className="md:col-span-2">
-            <div className="font-bold text-2xl mb-4">
-              <span className="text-predap-teal">Pre</span>
-              <span className="text-white">Dap</span>
+            <div className="font-display text-2xl tracking-tight">
+              <span className="text-background">Pre</span>
+              <span className="gradient-text">DAP</span>
             </div>
-            <p className="text-white/70 mb-6 max-w-md">
-              PreDap employs advanced AI technology to automate onboarding and reduce the burden 
-              of complex, repetitive tasks while maintaining data privacy and security.
+            <p className="mt-4 max-w-md text-white/70 leading-relaxed">
+              PreDAP uses advanced 3-tier AI to automate onboarding and reduce
+              the burden of complex, repetitive tasks — while keeping data
+              private and on-device.
             </p>
-            <Button asChild className="bg-predap-purple hover:bg-predap-purple/90">
+            <Button asChild variant="gradient" className="mt-6">
               <a href="https://predap.ai" target="_blank" rel="noopener noreferrer">
-                Try PreDap Now
+                Try PreDAP Now
               </a>
             </Button>
           </div>
-          
+
+          {/* Product links */}
           <div>
-            <h3 className="font-semibold text-lg mb-4">Product</h3>
-            <ul className="space-y-2">
-              <li><a href="#product" className="text-white/70 hover:text-white transition-colors">Overview</a></li>
-              <li><a href="#technology" className="text-white/70 hover:text-white transition-colors">Technology</a></li>
-              <li><a href="#how-it-works" className="text-white/70 hover:text-white transition-colors">How It Works</a></li>
-              <li><a href="#roadmap" className="text-white/70 hover:text-white transition-colors">Roadmap</a></li>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-white">
+              Product
+            </h3>
+            <ul className="mt-4 space-y-3">
+              {productLinks.map((link) => (
+                <li key={link.label}>
+                  <a
+                    href={link.href}
+                    className="text-white/70 hover:text-white transition-colors"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
-          
+
+          {/* Company links */}
           <div>
-            <h3 className="font-semibold text-lg mb-4">Company</h3>
-            <ul className="space-y-2">
-              <li><a href="#" className="text-white/70 hover:text-white transition-colors">About Us</a></li>
-              <li><a href="#" className="text-white/70 hover:text-white transition-colors">Contact</a></li>
-              <li><a href="#" className="text-white/70 hover:text-white transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="text-white/70 hover:text-white transition-colors">Terms of Service</a></li>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-white">
+              Company
+            </h3>
+            <ul className="mt-4 space-y-3">
+              {companyLinks.map((link) => (
+                <li key={link.label}>
+                  <a
+                    href={link.href}
+                    className="text-white/70 hover:text-white transition-colors"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
-        
-        <div className="border-t border-white/10 mt-12 pt-6 text-center md:text-left">
-          <p className="text-white/50">
-            &copy; {currentYear} PreDap. All rights reserved.
+
+        {/* Bottom row */}
+        <div className="mt-14 border-t border-white/10 pt-6">
+          <p className="text-sm text-white/50">
+            © {new Date().getFullYear()} PreDAP. All rights reserved.
           </p>
         </div>
       </div>
