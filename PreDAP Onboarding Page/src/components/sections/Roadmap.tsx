@@ -83,7 +83,7 @@ const Roadmap = () => {
             </p>
             <Button asChild variant="gradient" size="lg" className="group">
               <a
-                href="https://predap.ai"
+                href="https://github.com/Karannnnn614/PreDap"
                 target="_blank"
                 rel="noopener noreferrer"
               >

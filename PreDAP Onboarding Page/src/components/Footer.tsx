@@ -3,10 +3,10 @@ import { ArrowUpRight, Github, Twitter, Linkedin, Mail } from "lucide-react";
 import { fadeInUp, stagger, viewportOnce } from "@/lib/motion";
 
 const socials = [
-  { icon: Linkedin, label: "LinkedIn", href: "#" },
-  { icon: Twitter, label: "X / Twitter", href: "#" },
-  { icon: Github, label: "GitHub", href: "https://github.com/Karannnnn614/PreDap" },
-  { icon: Mail, label: "Email", href: "mailto:hello@predap.ai" },
+  { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/karannnnn/" },
+  { icon: Twitter, label: "X / Twitter", href: "https://x.com/karannnnn614" },
+  { icon: Github, label: "GitHub", href: "https://github.com/Karannnnn614" },
+  { icon: Mail, label: "Email", href: "mailto:workwithkaran614@gmail.com" },
 ];
 
 const productLinks = [
@@ -56,7 +56,7 @@ const Footer = () => {
               variants={fadeInUp}
               className="mt-5 font-display text-5xl font-medium leading-[0.95] tracking-tight text-white/85 sm:text-6xl md:text-7xl"
             >
-              Let&apos;s make onboarding
+              Let&apos;s make every tool
               <br />
               <span className="inline-flex items-center gap-2 font-semibold text-white">
                 effortless.
@@ -70,7 +70,7 @@ const Footer = () => {
 
           <motion.a
             variants={fadeInUp}
-            href="https://predap.ai"
+            href="https://github.com/Karannnnn614/PreDap"
             target="_blank"
             rel="noopener noreferrer"
             className="group inline-flex shrink-0 items-center gap-2 self-start border-b border-white/40 pb-1 text-lg font-medium text-white transition-colors hover:border-white md:self-auto"
@@ -119,7 +119,15 @@ const Footer = () => {
                 ))}
               </div>
               <p className="mt-3 text-xs text-muted-foreground">
-                Built by the 8 bits team — predap.ai
+                Built by{" "}
+                <a
+                  href="https://github.com/Karannnnn614"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium text-foreground transition-colors hover:text-brand-secondary"
+                >
+                  Karan
+                </a>
               </p>
             </div>
 
@@ -144,15 +152,11 @@ const Footer = () => {
             <div>
               <FooterLabel>Contact</FooterLabel>
               <a
-                href="mailto:hello@predap.ai"
+                href="mailto:workwithkaran614@gmail.com"
                 className="mt-4 block font-medium text-foreground transition-colors hover:text-brand-secondary"
               >
-                hello@predap.ai
+                workwithkaran614@gmail.com
               </a>
-              <p className="mt-1 text-sm text-muted-foreground">
-                We reply within 24 hours
-              </p>
-              <p className="text-sm text-muted-foreground">Mon–Fri, global</p>
             </div>
           </div>
         </div>

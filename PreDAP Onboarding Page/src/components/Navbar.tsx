@@ -66,7 +66,7 @@ const Navbar = () => {
               </a>
             ))}
             <Button asChild variant="gradient">
-              <a href="https://predap.ai" target="_blank" rel="noopener noreferrer">
+              <a href="https://github.com/Karannnnn614/PreDap" target="_blank" rel="noopener noreferrer">
                 Try PreDAP Now
               </a>
             </Button>
@@ -106,7 +106,7 @@ const Navbar = () => {
               ))}
               <Button asChild variant="gradient" className="mt-3 w-full">
                 <a
-                  href="https://predap.ai"
+                  href="https://github.com/Karannnnn614/PreDap"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={closeMobileMenu}
