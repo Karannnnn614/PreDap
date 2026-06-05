@@ -4,36 +4,35 @@
 
 @layer base {
   :root {
-    /* Minimalist Modern — warm off-white canvas, deep slate ink, Electric Blue brand */
-    --background: 0 0% 98%;            /* #FAFAFA */
-    --foreground: 222 47% 11%;         /* Slate-900 #0F172A */
+    /* AMOLED dark, technical. Near-black canvas with a faint cool tint so
+       electric-blue glows read. Single Electric Blue accent + cyan for data. */
+    --background: 228 24% 4%;          /* #07080B */
+    --foreground: 220 16% 96%;         /* near-white */
 
-    --card: 0 0% 100%;                 /* pure white for maximum lift */
-    --card-foreground: 222 47% 11%;
+    --card: 225 16% 7%;                /* elevated dark surface #0E1016 */
+    --card-foreground: 220 16% 96%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover: 225 18% 8%;
+    --popover-foreground: 220 16% 96%;
 
-    --primary: 221 100% 50%;           /* Electric Blue #0052FF */
+    --primary: 222 100% 59%;           /* Electric Blue #2D6BFF */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96%;          /* Slate-100 subtle surface */
-    --secondary-foreground: 222 47% 11%;
+    --secondary: 225 16% 11%;          /* subtle elevated surface */
+    --secondary-foreground: 220 16% 96%;
 
-    --muted: 210 40% 96%;              /* Slate-100 */
-    --muted-foreground: 215 16% 47%;   /* Slate-500 #64748B */
+    --muted: 226 18% 9%;               /* muted dark surface */
+    --muted-foreground: 222 11% 64%;   /* secondary text #9298A8 */
 
-    /* shadcn "accent" stays a subtle neutral surface (used by ghost/outline hovers).
-       The brand Electric Blue lives in the Tailwind `brand` color, not here. */
-    --accent: 210 40% 96%;
-    --accent-foreground: 222 47% 11%;
+    --accent: 225 15% 11%;             /* shadcn subtle surface (ghost hovers) */
+    --accent-foreground: 220 16% 96%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 72% 56%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 214 32% 91%;             /* Slate-200 #E2E8F0 */
-    --input: 214 32% 91%;
-    --ring: 221 100% 50%;              /* focus ring = Electric Blue */
+    --border: 225 14% 15%;             /* hairline border on near-black */
+    --input: 225 14% 15%;
+    --ring: 222 100% 59%;              /* focus ring = Electric Blue */
 
     --radius: 0.75rem;
   }
@@ -49,10 +48,10 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
-  /* Calistoga carries headline personality; Inter handles everything else. */
+  /* Space Grotesk carries the technical display voice; Inter does the rest. */
   h1,
   h2 {
-    @apply font-display font-normal tracking-[-0.02em];
+    @apply font-display font-semibold tracking-[-0.02em];
   }
 
   h3,
@@ -63,7 +62,12 @@
   }
 
   ::selection {
-    background-color: rgba(0, 82, 255, 0.15);
+    background-color: rgba(45, 107, 255, 0.3);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
   }
 }
 
@@ -73,42 +77,51 @@
   }
 
   .section-spacing {
-    @apply py-28 md:py-36 lg:py-44;
+    @apply py-24 md:py-32 lg:py-40;
   }
 
-  /* Signature gradient text — used on key headline words. */
+  /* Signature electric-blue gradient text — used on key headline words. */
   .gradient-text {
-    @apply bg-gradient-to-r from-brand to-brand-secondary bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-brand-secondary via-brand to-brand-cyan bg-clip-text text-transparent;
   }
 
-  /* Soft gradient bar that sits beneath a hero headline word. */
+  /* Soft glow bar that sits beneath a hero headline word. */
   .gradient-underline {
-    @apply absolute bottom-[-0.25rem] left-0 h-3 w-full rounded-sm md:bottom-[-0.5rem] md:h-4;
+    @apply absolute bottom-[-0.3rem] left-0 h-2.5 w-full rounded-full md:bottom-[-0.5rem] md:h-3;
     background: linear-gradient(
       to right,
-      rgba(0, 82, 255, 0.18),
-      rgba(77, 124, 255, 0.1)
+      rgba(45, 107, 255, 0.55),
+      rgba(34, 211, 238, 0.25)
     );
+    filter: blur(6px);
   }
 
-  /* Section label pill: monospace uppercase + (optionally pulsing) brand dot. */
-  .section-label {
-    @apply inline-flex items-center gap-3 rounded-full border border-brand/30 bg-brand/5 px-5 py-2 font-mono text-xs uppercase tracking-[0.15em] text-brand;
+  /* Glass surface — the default card across the dark UI. */
+  .surface-card {
+    @apply rounded-2xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-xl transition-all duration-300;
   }
 
-  /* Dot-grid texture for inverted (dark) sections — felt, not seen. */
+  /* Technical grid texture for section/hero backgrounds — felt, not seen. */
+  .grid-pattern {
+    background-image: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0.04) 1px,
+        transparent 1px
+      ),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 56px 56px;
+    -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  }
+
+  /* Dot-grid texture (used on deepest panels). */
   .dot-pattern {
     background-image: radial-gradient(
       circle,
-      rgba(255, 255, 255, 0.9) 1px,
+      rgba(255, 255, 255, 0.6) 1px,
       transparent 1px
     );
-    background-size: 32px 32px;
-  }
-
-  /* Standard elevated card surface. */
-  .surface-card {
-    @apply rounded-2xl border border-border bg-card shadow-[0_4px_6px_rgba(0,0,0,0.05)] transition-all duration-300;
+    background-size: 28px 28px;
   }
 }
 
@@ -122,8 +135,4 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-}
-
-html {
-  scroll-behavior: smooth;
 }

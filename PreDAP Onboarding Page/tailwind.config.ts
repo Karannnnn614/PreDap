@@ -14,13 +14,13 @@ export default {
       center: true,
       padding: "1.5rem",
       screens: {
-        "2xl": "1152px",
+        "2xl": "1200px",
       },
     },
     extend: {
       fontFamily: {
         sans: ["Inter", "system-ui", "sans-serif"],
-        display: ["Calistoga", "Georgia", "serif"],
+        display: ['"Space Grotesk"', "Inter", "sans-serif"],
         mono: ['"JetBrains Mono"', "ui-monospace", "monospace"],
       },
       colors: {
@@ -57,11 +57,11 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Brand Electric Blue — the signature gradient of the design system.
-        // Used as: from-brand to-brand-secondary, text-brand, bg-brand/5, border-brand/30
+        // Electric Blue brand — the signature neon. Cyan is the "data/flow" accent.
         brand: {
-          DEFAULT: "#0052FF",
-          secondary: "#4D7CFF",
+          DEFAULT: "#2D6BFF",
+          secondary: "#5B8DEF",
+          cyan: "#22D3EE",
           foreground: "#FFFFFF",
         },
       },
@@ -71,8 +71,15 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       boxShadow: {
-        accent: "0 4px 14px rgba(0,82,255,0.25)",
-        "accent-lg": "0 8px 24px rgba(0,82,255,0.35)",
+        glow: "0 0 24px rgba(45,107,255,0.35)",
+        "glow-lg": "0 0 60px rgba(45,107,255,0.25)",
+        "glow-cyan": "0 0 24px rgba(34,211,238,0.35)",
+        // Aliases so existing shadow-accent usages glow on the dark canvas.
+        accent: "0 0 24px rgba(45,107,255,0.35)",
+        "accent-lg": "0 0 60px rgba(45,107,255,0.30)",
+      },
+      backdropBlur: {
+        xs: "4px",
       },
       keyframes: {
         "accordion-down": {
@@ -87,7 +94,6 @@ export default {
           "0%": { opacity: "0", transform: "translateY(10px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
-        // Gentle vertical bob for floating hero cards (±10px, ~5s)
         float: {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-10px)" },
@@ -96,17 +102,27 @@ export default {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-14px)" },
         },
-        // Glacial rotation for decorative dashed ring (60s)
         "spin-slow": {
           from: { transform: "rotate(0deg)" },
           to: { transform: "rotate(360deg)" },
         },
-        // Live indicator pulse for badge dots
         "pulse-dot": {
           "0%, 100%": { transform: "scale(1)", opacity: "1" },
           "50%": { transform: "scale(1.3)", opacity: "0.7" },
         },
-        // Dashed flow along architecture connectors
+        // Glow breathing for neon accents
+        "glow-pulse": {
+          "0%, 100%": { opacity: "0.5" },
+          "50%": { opacity: "1" },
+        },
+        // Data packet travelling down an architecture connector
+        "flow-down": {
+          "0%": { transform: "translateY(-100%)", opacity: "0" },
+          "15%": { opacity: "1" },
+          "85%": { opacity: "1" },
+          "100%": { transform: "translateY(800%)", opacity: "0" },
+        },
+        // Dashed stroke marching along SVG connectors
         "dash-flow": {
           to: { strokeDashoffset: "-24" },
         },
@@ -124,6 +140,8 @@ export default {
         "float-delayed": "float 4s ease-in-out 0.6s infinite",
         "spin-slow": "spin-slow 60s linear infinite",
         "pulse-dot": "pulse-dot 2s ease-in-out infinite",
+        "glow-pulse": "glow-pulse 2.5s ease-in-out infinite",
+        "flow-down": "flow-down 2.4s ease-in-out infinite",
         "dash-flow": "dash-flow 1.2s linear infinite",
         "gradient-x": "gradient-x 8s ease infinite",
       },

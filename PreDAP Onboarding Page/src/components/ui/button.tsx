@@ -9,9 +9,9 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        // Signature gradient CTA — lifts and deepens its accent-tinted shadow on hover.
+        // Signature gradient CTA — neon glow at rest, deeper lift + glow on hover.
         gradient:
-          "bg-gradient-to-r from-brand to-brand-secondary text-brand-foreground shadow-sm hover:-translate-y-0.5 hover:shadow-accent-lg hover:brightness-110",
+          "bg-gradient-to-r from-brand to-brand-secondary text-brand-foreground shadow-glow hover:-translate-y-0.5 hover:shadow-glow-lg hover:brightness-110",
         default: "bg-primary text-primary-foreground hover:bg-primary/90",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
