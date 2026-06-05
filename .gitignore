@@ -18,3 +18,17 @@ request.py
 # Testing and development folders
 testing/
 api_fake_server/
+
+# OS files
+.DS_Store
+
+# Images & local screenshots (not part of the app)
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+
+# Build output & local tooling artifacts
+PreDAP Onboarding Page/dist/
+.playwright-mcp/
