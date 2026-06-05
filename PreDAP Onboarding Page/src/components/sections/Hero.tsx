@@ -14,9 +14,10 @@ const trust = [
 const Hero = () => {
   return (
     <section className="relative overflow-hidden pt-36 pb-24 md:pt-44 md:pb-32">
-      {/* Atmospheric brand glow in the corner */}
-      <div className="pointer-events-none absolute -top-32 right-0 -z-10 h-[480px] w-[480px] rounded-full bg-brand/10 blur-[150px]" />
-      <div className="pointer-events-none absolute left-1/2 top-0 -z-10 h-px w-2/3 -translate-x-1/2 bg-gradient-to-r from-transparent via-border to-transparent" />
+      {/* Technical grid + atmospheric electric-blue glows */}
+      <div className="grid-pattern pointer-events-none absolute inset-0 -z-10" />
+      <div className="pointer-events-none absolute -top-40 right-0 -z-10 h-[520px] w-[520px] rounded-full bg-brand/15 blur-[150px]" />
+      <div className="pointer-events-none absolute -bottom-40 -left-20 -z-10 h-[420px] w-[420px] rounded-full bg-brand-cyan/10 blur-[150px]" />
 
       <div className="container-section">
         <div className="grid items-center gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10">
