@@ -33,7 +33,7 @@ PreDAP (Predictive Dynamic Assistance Platform) is an **AI-powered browser exten
 - **Zero-Code Integration:** Works with any website instantly
 - **Visual Guidance:** Highlights elements with precise instructions
 - **Multi-Step Tasks:** Handles complex workflows automatically
-- **Privacy-First:** All processing happens locally
+- **Cloud AI:** A screenshot of the current tab and the page's DOM elements are sent to Google's Gemini API for reasoning. (On-device/local privacy processing is planned but **not yet implemented** — see the [README implementation status](../README.md#-implementation-status).)
 - **Beautiful UI:** Modern, intuitive toast notifications
 
 ### 🎥 See It In Action
@@ -48,14 +48,15 @@ PreDAP (Predictive Dynamic Assistance Platform) is an **AI-powered browser exten
 
 ```powershell
 # 1. Clone the repository
-git clone https://github.com/bhavya1006/Hackbyte-3.0.git
-cd Hackbyte-3.0
+git clone https://github.com/Karannnnn614/PreDap.git
+cd PreDap
 
 # 2. Setup Backend (Terminal 1)
 cd api_server
 python -m venv venv
 .\venv\Scripts\Activate.ps1
 pip install -r requirements.txt
+# Writes a literal placeholder; edit .env to insert your real Gemini key
 echo GEMINI_API_KEY=your_key_here > .env
 python -m uvicorn server:app --reload
 
@@ -99,12 +100,12 @@ python -m uvicorn server:app --reload
 
 ```bash
 # Using HTTPS
-git clone https://github.com/bhavya1006/Hackbyte-3.0.git
+git clone https://github.com/Karannnnn614/PreDap.git
 
 # Or using SSH
-git clone git@github.com:bhavya1006/Hackbyte-3.0.git
+git clone git@github.com:Karannnnn614/PreDap.git
 
-cd Hackbyte-3.0
+cd PreDap
 ```
 
 ---
@@ -399,7 +400,7 @@ app.add_middleware(
 - FastAPI backend architecture
 - Google Gemini AI integration
 - Real-time DOM analysis
-- Privacy-first design
+- Roadmap toward on-device privacy tiers (TFLite/ONNX + PII abstraction) — not yet implemented
 
 ---
 
@@ -503,7 +504,7 @@ vercel
 
 ### Support
 
-- **GitHub Issues:** https://github.com/bhavya1006/Hackbyte-3.0/issues
+- **GitHub Issues:** https://github.com/Karannnnn614/PreDap/issues
 - **Demo Video:** [Watch Here](https://drive.google.com/file/d/1x1LMtvn8sO6P1KZ815QMuBJ5rGNb2WMz/view)
 
 ---
