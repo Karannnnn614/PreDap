@@ -1,4 +1,26 @@
-const API_URL = "http://127.0.0.1:8000/analyze_ui";
+// Runtime configuration for the (unbundled) content script.
+// KEEP IN SYNC with config/constants.ts — MV3 content scripts have no build
+// step and cannot import a .ts module at runtime, so these values are mirrored
+// from the canonical config/constants.ts (API_BASE_URL, ENDPOINTS, ACTIONS).
+const CONFIG = {
+  API_ORIGIN: "http://127.0.0.1:8000",
+  ANALYZE_PATH: "/analyze_ui",
+  // Shared secret sent as the X-API-Key header. Must match the backend's
+  // PREDAP_API_KEY env var. Leave "" for local/dev (backend then runs open
+  // and logs an "unauthenticated" warning). Set this before any deployment.
+  API_KEY: "",
+  // Toggle verbose logging. Off by default so page content / full response
+  // bodies are never written to the console (privacy).
+  DEBUG: false,
+};
+const API_URL = CONFIG.API_ORIGIN + CONFIG.ANALYZE_PATH;
+
+// Message-action constants — must match background.js ACTIONS.
+const ACTIONS = {
+  CAPTURE_SCREENSHOT: "captureScreenshot",
+  LOG_MESSAGE: "logMessage",
+  START_QUERY: "startQuery",
+};
 
 // Expose callApi globally so background.js can call it
 window.callApi = callApi;
@@ -24,22 +46,36 @@ function showToast(message, type = "info") {
   const config = colors[type] || colors.info;
   const icon = icons[type] || icons.info;
 
-  toast.innerHTML = `
-    <div style="display: flex; align-items: center; gap: 12px;">
-      <div style="
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        background: rgba(255,255,255,0.25);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 16px;
-        flex-shrink: 0;
-      ">${icon}</div>
-      <div style="flex: 1; line-height: 1.4;">${message}</div>
-    </div>
-  `;
+  // SECURITY: `message` may be AI-/server-controlled, so it is rendered via
+  // textContent (never innerHTML) to prevent DOM-based XSS / HTML injection.
+  const row = document.createElement("div");
+  Object.assign(row.style, {
+    display: "flex",
+    alignItems: "center",
+    gap: "12px",
+  });
+
+  const iconEl = document.createElement("div");
+  Object.assign(iconEl.style, {
+    width: "24px",
+    height: "24px",
+    borderRadius: "50%",
+    background: "rgba(255,255,255,0.25)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: "16px",
+    flexShrink: "0",
+  });
+  iconEl.textContent = icon; // static, trusted glyph
+
+  const messageEl = document.createElement("div");
+  Object.assign(messageEl.style, { flex: "1", lineHeight: "1.4" });
+  messageEl.textContent = message; // untrusted — safe as text
+
+  row.appendChild(iconEl);
+  row.appendChild(messageEl);
+  toast.appendChild(row);
 
   Object.assign(toast.style, {
     position: "fixed",
@@ -119,13 +155,21 @@ async function callApi(query) {
         `Sending request with ${uiElements.length} UI elements`
       );
 
+      const headers = { "Content-Type": "application/json" };
+      if (CONFIG.API_KEY) {
+        headers["X-API-Key"] = CONFIG.API_KEY;
+      }
+
       const response = await fetch(API_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify({
           task_description: query,
           image_base64: screenshot,
           ui_elements: uiElements,
+          // Sent so the backend can key its response cache on
+          // url + task + element-digest. Optional server-side, so safe to add.
+          url: window.location.href,
         }),
       });
 
@@ -180,18 +224,71 @@ async function callApi(query) {
 
 function captureScreenshot() {
   return new Promise((resolve) => {
-    chrome.runtime.sendMessage({ action: "captureScreenshot" }, (response) => {
-      resolve(response.screenshot || "");
-    });
+    try {
+      chrome.runtime.sendMessage(
+        { action: ACTIONS.CAPTURE_SCREENSHOT },
+        (response) => {
+          // ROBUSTNESS: if the channel closed or errored, `response` is
+          // undefined and `chrome.runtime.lastError` is set. Resolve to ""
+          // instead of throwing on `response.screenshot`.
+          if (chrome.runtime.lastError || !response) {
+            resolve("");
+            return;
+          }
+          resolve(response.screenshot || "");
+        }
+      );
+    } catch (error) {
+      resolve("");
+    }
   });
 }
 
-function getInteractiveElements() {
-  const elements = [];
-  const selectors =
-    'button, a, input, select, textarea, [role="button"], [onclick]';
+// --- Interactive-element scan cache -----------------------------------------
+// callApi() loops every ~1s and re-scans the full DOM on each iteration. The
+// vast majority of those scans run against an unchanged DOM, so we cache the
+// last scan and only recompute when the DOM actually mutates. A MutationObserver
+// (started lazily on first scan) flips a dirty flag; the flip is debounced at
+// 300ms so a burst of mutations costs at most one recompute on the next scan.
+const INTERACTIVE_SELECTORS =
+  'button, a, input, select, textarea, [role="button"], [onclick]';
 
-  document.querySelectorAll(selectors).forEach((el, index) => {
+let _elementCache = null; // last computed array (null => never scanned)
+let _cacheDirty = true; // true => recompute on next getInteractiveElements()
+let _observer = null; // MutationObserver instance (started once)
+let _dirtyDebounceTimer = null; // pending 300ms debounce timer id
+
+function _markCacheDirty() {
+  // Debounce: a burst of mutations flips the flag a single time.
+  if (_dirtyDebounceTimer !== null) {
+    clearTimeout(_dirtyDebounceTimer);
+  }
+  _dirtyDebounceTimer = setTimeout(() => {
+    _cacheDirty = true;
+    _dirtyDebounceTimer = null;
+  }, 300);
+}
+
+function _startObserver() {
+  // Already running, no MutationObserver in this environment, or body not ready.
+  if (_observer || typeof MutationObserver === "undefined") return;
+  const root = document.body || document.documentElement;
+  if (!root) return; // guard: DOM not ready yet — next scan retries.
+
+  _observer = new MutationObserver(_markCacheDirty);
+  _observer.observe(root, {
+    childList: true,
+    subtree: true,
+    // Only attributes that can change which elements are interactive or where
+    // they sit; avoids waking on cosmetic style-only churn beyond these.
+    attributes: true,
+    attributeFilter: ["id", "class", "role", "onclick", "hidden", "disabled", "style"],
+  });
+}
+
+function _computeInteractiveElements() {
+  const elements = [];
+  document.querySelectorAll(INTERACTIVE_SELECTORS).forEach((el) => {
     const rect = el.getBoundingClientRect();
     if (rect.width > 0 && rect.height > 0) {
       elements.push({
@@ -212,8 +309,31 @@ function getInteractiveElements() {
       });
     }
   });
-
   return elements;
+}
+
+function getInteractiveElements() {
+  // ERROR BOUNDARY: never let a DOM scrape throw and break the host page.
+  try {
+    // Lazily attach the observer on the first scan (and keep retrying until
+    // document.body exists). The observer guarantees the cache is invalidated
+    // whenever the DOM genuinely changes, so a cache hit is always correct.
+    _startObserver();
+
+    // Cache hit: DOM is static since the last scan — reuse the prior result.
+    if (!_cacheDirty && _elementCache !== null) {
+      return _elementCache;
+    }
+
+    _elementCache = _computeInteractiveElements();
+    // If the observer is live, the DOM is clean until the next mutation.
+    // If it could not start yet (no body), stay dirty so we recompute next time.
+    _cacheDirty = _observer === null;
+    return _elementCache;
+  } catch (error) {
+    sendLogToBackground(`Error in getInteractiveElements: ${error.message}`);
+    return [];
+  }
 }
 
 function findMatchingElement(response) {
@@ -302,7 +422,14 @@ function findMatchingElement(response) {
 }
 
 function sendLogToBackground(message) {
-  chrome.runtime.sendMessage({ action: "logMessage", message });
+  // DEBUG gate: by default do not ship diagnostic logs (which may contain page
+  // content / full server responses) to the background console.
+  if (!CONFIG.DEBUG) return;
+  try {
+    chrome.runtime.sendMessage({ action: ACTIONS.LOG_MESSAGE, message });
+  } catch (error) {
+    /* extension context may be invalidated mid-navigation; ignore */
+  }
 }
 
 async function showPrompt(response, target) {
