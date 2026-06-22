@@ -1,0 +1,80 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  backend:
+    name: Backend (lint + tests)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f api_server/requirements.txt ]; then
+            pip install -r api_server/requirements.txt
+          fi
+          # Dev tooling (linter + test runner) used by this workflow
+          pip install ruff pytest
+
+      - name: Lint (ruff)
+        run: ruff check api_server
+
+      - name: Run tests (pytest)
+        run: |
+          # Only run pytest if a tests directory or any test files exist,
+          # so a fresh checkout without tests does not hard-fail.
+          if [ -d api_server/tests ] || ls api_server/test_*.py >/dev/null 2>&1; then
+            pytest api_server
+          else
+            echo "No backend tests found yet (api_server/tests/ missing) — skipping pytest."
+          fi
+
+  frontend:
+    name: Frontend (typecheck + lint + build)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: "PreDAP Onboarding Page"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+          cache-dependency-path: "PreDAP Onboarding Page/package-lock.json"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type check
+        # The root tsconfig uses project references (files: []), so build mode
+        # (-b) is required to actually type-check the app/node sub-projects.
+        run: npx tsc -b
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build

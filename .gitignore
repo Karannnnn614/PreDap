@@ -32,3 +32,26 @@ api_fake_server/
 # Build output & local tooling artifacts
 PreDAP Onboarding Page/dist/
 .playwright-mcp/
+
+# Node
+node_modules/
+dist/
+build/
+
+# Python
+*.pyc
+*.pyo
+venv/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Environment files (keep example envs tracked)
+.env.*
+!.env.example
+
+# Profiling & build metadata (generated artifacts)
+*.prof
+*.tsbuildinfo
+**/dist/stats.html
