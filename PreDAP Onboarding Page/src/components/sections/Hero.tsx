@@ -3,7 +3,7 @@ import { ArrowRight, ShieldCheck, Cpu, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SectionLabel from "@/components/SectionLabel";
 import ProductPreview from "@/components/ProductPreview";
-import { fadeInUp, scaleIn, stagger, viewportOnce } from "@/lib/motion";
+import { fadeInUp, scaleIn, stagger } from "@/lib/motion";
 
 const trust = [
   { icon: Lock, label: "Privacy-first" },

@@ -19,4 +19,25 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    // Strip all console.* / debugger statements from the production bundle.
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+      },
+    },
+    rollupOptions: {
+      output: {
+        // Split heavy, rarely-changing vendor code into long-cacheable chunks
+        // so the React runtime and the animation library aren't re-downloaded
+        // on every app deploy, and so framer-motion can load in parallel.
+        manualChunks: {
+          "react-vendor": ["react", "react-dom", "react-router-dom"],
+          "framer-motion": ["framer-motion"],
+        },
+      },
+    },
+  },
 }));
