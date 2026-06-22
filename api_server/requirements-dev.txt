@@ -1,0 +1,7 @@
+# Dev/test dependencies (pinned to installed, known-good versions).
+-r requirements.txt
+pytest==9.0.3
+httpx==0.28.1
+ruff==0.15.16
+mypy==2.1.0
+pip-audit==2.10.1
